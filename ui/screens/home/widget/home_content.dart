@@ -25,27 +25,14 @@ class HomeContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text("Your recently songs", style: AppTextStyles.label),
           ),
-          ...viewModel.recentSongs.map(
-            (song) => SongTile(
-              song: song,
-              isPlaying: viewModel.isSongPlaying(song),
-              onTap: () => viewModel.play(song),
-              onStop: () => viewModel.stop(),
-            ),
-          ),
+          ...buildSongList(viewModel.recentSongs, viewModel),
+
           const SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text("You might also like", style: AppTextStyles.label),
           ),
-          ...viewModel.recommendedSongs.map(
-            (song) => SongTile(
-              song: song,
-              isPlaying: viewModel.isSongPlaying(song),
-              onTap: () => viewModel.play(song),
-              onStop: () => viewModel.stop(),
-            ),
-          ),
+          ...buildSongList(viewModel.recommendedSongs, viewModel),
           const SizedBox(height: 32),
         ],
       ),
@@ -87,4 +74,17 @@ class SongTile extends StatelessWidget {
           : null,
     );
   }
+}
+
+List<Widget> buildSongList(List<Song> songs, HomeViewModel vm) {
+  return songs
+      .map(
+        (song) => SongTile(
+          song: song,
+          isPlaying: vm.isSongPlaying(song),
+          onTap: () => vm.play(song),
+          onStop: () => vm.stop(),
+        ),
+      )
+      .toList();
 }

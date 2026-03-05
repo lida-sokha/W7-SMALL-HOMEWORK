@@ -5,4 +5,9 @@ class UserHistoryRepositoryMock implements UserHistoryRepository {
   List<String> fetchRecentSongIds() {
     return ['101', '102'];
   }
+
+  @override
+  List<String> fetchRecommendSongIds() {
+    return ['103', '104', '105'];
+  }
 }

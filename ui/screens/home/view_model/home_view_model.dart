@@ -30,8 +30,11 @@ class HomeViewModel extends ChangeNotifier {
         .whereType<Song>()
         .toList();
 
-    final allsong = _songRepository.fetchSongs();
-    _recommendedSongs = List.from(allsong)..shuffle();
+    final recommendedIds = _historyRepository.fetchRecommendSongIds();
+    _recommendedSongs = recommendedIds
+        .map((id) => _songRepository.fetchSongById(id))
+        .whereType<Song>()
+        .toList();
   }
 
   List<Song> get recentSongs => _recentSongs;
