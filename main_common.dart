@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:nested/nested.dart';
+import 'ui/screens/home/home_screen.dart';
 import 'ui/screens/favorite/favorite_screen.dart';
 import 'ui/screens/library/library_screen.dart';
 import 'ui/screens/settings/settings_screen.dart';
@@ -14,13 +15,10 @@ void mainCommon(List<SingleChildWidget> providers) {
   runApp(
     MultiProvider(
       providers: providers,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: MyApp()),
+      child: MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()),
     ),
   );
 }
- 
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -32,20 +30,24 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int _currentIndex = 1;
 
-  final List<Widget> _pages = [LibraryScreen(), FavoriteScreen(), SettingsScreen()];
+  final List<Widget> _pages = [
+    LibraryScreen(),
+    HomeScreen(),
+    FavoriteScreen(),
+    SettingsScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    
     // 1- Get the globbal settings state
     AppSettingsState settingsState = context.read<AppSettingsState>();
- 
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       home: Scaffold(
         body: _pages[_currentIndex],
-    
+
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {
@@ -56,15 +58,19 @@ class _MyAppState extends State<MyApp> {
           selectedItemColor: settingsState.theme.color,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.library_music),
+              icon: Icon(Icons.library_music, color: AppColors.greyLight),
               label: 'Library',
             ),
-             BottomNavigationBarItem(
-              icon: Icon(Icons.heart_broken),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home, color: AppColors.greyLight),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.heart_broken, color: AppColors.greyLight),
               label: 'Favorites',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.settings, color: AppColors.greyLight),
               label: 'Settings',
             ),
           ],
