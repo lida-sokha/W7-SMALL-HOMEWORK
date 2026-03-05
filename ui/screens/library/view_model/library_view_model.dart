@@ -4,29 +4,33 @@ import '../../../../model/songs/song.dart';
 import '../../../../ui/states/player_state.dart';
 
 class LibraryViewModel extends ChangeNotifier {
-  final SongRepository songRepository;
-  final PlayerState playerState;
-  List<Song> _songs = [];
-  List<Song> get songs => _songs;
+  final SongRepository _songRepository;
+  final PlayerState _playerState;
 
-  bool isSongPlaying(Song song) => playerState.currentSong == song;
-
-  LibraryViewModel({required this.songRepository, required this.playerState}) {
+  LibraryViewModel({
+    required SongRepository songRepository,
+    required PlayerState playerState,
+  }) : _songRepository = songRepository,
+       _playerState = playerState {
     _init();
-    playerState.addListener(notifyListeners);
+    _playerState.addListener(notifyListeners);
   }
 
   void _init() {
-    _songs = songRepository.fetchSongs();
+    _songs = _songRepository.fetchSongs();
   }
 
+  List<Song> _songs = [];
+  List<Song> get songs => _songs;
+
+  bool isSongPlaying(Song song) => _playerState.currentSong == song;
   void play(Song song) {
-    playerState.start(song);
+    _playerState.start(song);
   }
-  
+
   @override
   void dispose() {
-    playerState.removeListener(notifyListeners);
+    _playerState.removeListener(notifyListeners);
     super.dispose();
   }
 }
