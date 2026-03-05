@@ -28,6 +28,8 @@ class LibraryViewModel extends ChangeNotifier {
     _playerState.start(song);
   }
 
+  void stop() => _playerState.stop();
+
   @override
   void dispose() {
     _playerState.removeListener(notifyListeners);
